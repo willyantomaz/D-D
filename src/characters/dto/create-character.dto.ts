@@ -1,36 +1,31 @@
-import { IsString, IsNumber, IsArray } from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, IsOptional, IsObject } from 'class-validator';
 
 export class CreateCharacterDto {
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @IsString()
-  class: string;
-
-  @IsNumber()
-  level: number;
-
-  attributes: {
-    strength: number,
-    dexterity: number,
-    constitution: number,
-    intelligence: number,
-    wisdom: number,
-    charisma: number,
-  };
-
-  @IsArray()
-  feats: string[];
+  @IsNotEmpty()
+  className: string;
 
   @IsString()
+  @IsNotEmpty()
   alignment: string;
 
-  @IsArray()
-  talents: string[];
+  @IsObject()
+  @IsNotEmpty()
+  attributes: { [key: string]: number };
 
   @IsArray()
-  spells: string[];
+  @IsOptional()
+  feats?: string[];
 
   @IsArray()
-  items: string[];
+  @IsOptional()
+  spells?: string[];
+
+  @IsArray()
+  @IsOptional()
+  items?: string[];
 }

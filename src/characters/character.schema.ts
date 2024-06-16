@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 @Schema()
 export class Character extends Document {
@@ -6,35 +7,24 @@ export class Character extends Document {
   name: string;
 
   @Prop({ required: true })
-  class: string;
+  className: string;
 
-  @Prop()
-  attributes: {
-    strength: number,
-    dexterity: number,
-    constitution: number,
-    intelligence: number,
-    wisdom: number,
-    charisma: number,
-  };
-
-  @Prop()
-  feats: string[];
-
-  @Prop()
+  @Prop({ required: true })
   alignment: string;
 
-  @Prop()
-  talents: string[];
+  @Prop({ type: Object, required: true })
+  attributes: { [key: string]: number };
 
-  @Prop()
+  @Prop({ type: [String], default: [] })
+  feats: string[];
+
+  @Prop({ type: [String], default: [] })
   spells: string[];
 
-  @Prop()
+  @Prop({ type: [String], default: [] })
   items: string[];
 
-  @Prop()
-  level: number;
+  // Adicione outros campos conforme necessário
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);

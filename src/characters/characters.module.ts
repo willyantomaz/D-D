@@ -1,19 +1,16 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Character, CharacterSchema } from './character.schema';
 import { CharactersService } from './characters.service';
 import { CharactersController } from './characters.controller';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { AuthGuard } from '@nestjs/passport';
+import { Character, CharacterSchema } from './character.schema';
+import { DndApiModule } from '../D&D-api/d&d-api.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Character.name, schema: CharacterSchema }]),
-    JwtModule,
-    PassportModule
+    DndApiModule,
   ],
-  providers: [CharactersService],
   controllers: [CharactersController],
+  providers: [CharactersService],
 })
 export class CharactersModule {}

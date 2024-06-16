@@ -14,16 +14,13 @@ export class CharactersService {
   ) {}
 
   async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
-    const { className, spellName } = createCharacterDto;
+    const { className } = createCharacterDto;
 
     const classInfo = await this.dndApiService.getClassInfo(className).toPromise();
-    const spellInfo = await this.dndApiService.getSpellInfo(spellName).toPromise();
 
-    // Supondo que você processe os dados da API de acordo com suas necessidades
     const characterData = {
       ...createCharacterDto,
       classInfo,
-      spellInfo,
     };
 
     const createdCharacter = new this.characterModel(characterData);
