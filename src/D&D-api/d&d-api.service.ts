@@ -28,5 +28,5 @@ export class DndApiService {
     );
   }
 
-  // Adicione outros métodos conforme necessário
+ 
 }

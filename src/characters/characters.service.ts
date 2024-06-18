@@ -54,4 +54,22 @@ export class CharactersService {
     }
     return deletedCharacter;
   }
+
+  async createRandom(createCharacterDto: CreateCharacterDto): Promise<Character> {
+    const randomName = `RandomHero${Math.floor(Math.random() * 1000)}`;
+    const randomAttributes = {
+      strength: Math.floor(Math.random() * 20) + 1,
+      dexterity: Math.floor(Math.random() * 20) + 1,
+      constitution: Math.floor(Math.random() * 20) + 1,
+      intelligence: Math.floor(Math.random() * 20) + 1,
+      wisdom: Math.floor(Math.random() * 20) + 1,
+      charisma: Math.floor(Math.random() * 20) + 1,
+    };
+    const randomCharacterDto = {
+      ...createCharacterDto,
+      name: randomName,
+      attributes: randomAttributes,
+    };
+    return this.create(randomCharacterDto);
+  }
 }
