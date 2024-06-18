@@ -9,4 +9,9 @@ export class LocalAuthGuard extends AuthGuard('local') {
     await super.logIn(request);
     return result;
   }
+
+  logIn(request: any): Promise<void> {
+    request.login = () => Promise.resolve(); 
+    return Promise.resolve();
+  }
 }

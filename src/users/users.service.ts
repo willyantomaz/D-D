@@ -18,15 +18,15 @@ export class UsersService {
     return this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<User> {
-    const user = await this.userModel.findById(id).exec();
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return user;
-  }
+  // async findOne(id: string): Promise<User> {
+  //   const user = await this.userModel.findById(id).exec();
+  //   if (!user) {
+  //     throw new NotFoundException('User not found');
+  //   }
+  //   return user;
+  // }
 
-  async findByUsername(username: string): Promise<User> {
+  async findOne(username: string): Promise<User | undefined> {
     return this.userModel.findOne({ username }).exec();
   }
 
