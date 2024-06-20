@@ -8,11 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
+  
   @Get()
   async findAll() {
     return this.usersService.findAll();
