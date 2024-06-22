@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsArray, IsOptional, IsObject } from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, IsOptional, IsObject, IsInt, Min, Max } from 'class-validator';
 
 export class CreateCharacterDto {
   @IsString()
@@ -8,6 +8,14 @@ export class CreateCharacterDto {
   @IsString()
   @IsNotEmpty()
   className: string;
+
+  @IsString()
+  readonly race: string;
+
+  @IsInt()
+  @Min(1)
+  @Max(20)
+  readonly level: number;
 
   @IsString()
   @IsNotEmpty()

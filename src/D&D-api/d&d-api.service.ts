@@ -1,32 +1,36 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { catchError, map } from 'rxjs/operators';
-import { AxiosResponse } from 'axios';
-import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class DndApiService {
-  private readonly apiUrl: string = 'https://www.dnd5eapi.co/api';
+  private readonly apiBase = 'https://www.dnd5eapi.co/api';
 
   constructor(private readonly httpService: HttpService) {}
 
-  getClassInfo(className: string): Observable<AxiosResponse<any>> {
-    return this.httpService.get(`${this.apiUrl}/classes/${className}`).pipe(
-      map((response: AxiosResponse<any>) => response.data),
-      catchError(error => {
-        throw new HttpException('Error fetching class info', HttpStatus.INTERNAL_SERVER_ERROR);
-      })
-    );
+  async getClass(className: string) {
+    try {
+      const { data } = await this.httpService.get(`${this.apiBase}/classes/${className.toLowerCase()}`).toPromise();
+      return data;
+    } catch (error) {
+      throw new NotFoundException('Classe inválida');
+    }
   }
 
-  getSpellInfo(spellName: string): Observable<AxiosResponse<any>> {
-    return this.httpService.get(`${this.apiUrl}/spells/${spellName}`).pipe(
-      map((response: AxiosResponse<any>) => response.data),
-      catchError(error => {
-        throw new HttpException('Error fetching spell info', HttpStatus.INTERNAL_SERVER_ERROR);
-      })
-    );
+  async getRace(raceName: string) {
+    try {
+      const { data } = await this.httpService.get(`${this.apiBase}/races/${raceName.toLowerCase()}`).toPromise();
+      return data;
+    } catch (error) {
+      throw new NotFoundException('Raça inválida');
+    }
   }
 
- 
+  async getSpell(spellName: string) {
+    try {
+      const { data } = await this.httpService.get(`${this.apiBase}/spells/${spellName.toLowerCase()}`).toPromise();
+      return data;
+    } catch (error) {
+      throw new NotFoundException('Magia inválida');
+    }
+  }
 }

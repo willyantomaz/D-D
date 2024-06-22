@@ -5,6 +5,7 @@ import { Character } from './character.schema';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { DndApiService } from '../D&D-api/d&d-api.service';
+import { ValidationException } from 'src/exceptions/validation.exception';
 
 @Injectable()
 export class CharactersService {
@@ -14,16 +15,38 @@ export class CharactersService {
   ) {}
 
   async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
-    const { className } = createCharacterDto;
+    const { className, race, spells, level } = createCharacterDto;
 
-    const classInfo = await this.dndApiService.getClassInfo(className);
+    const characterClass = await this.dndApiService.getClass(className);
+    if (!characterClass) {
+      throw new ValidationException(`Classe ${className} é inválida.`);
+    }
 
-    const characterData = {
-      ...createCharacterDto,
-      classInfo,
-    };
+    const characterRace = await this.dndApiService.getRace(race);
+    if (!characterRace) {
+      throw new ValidationException(`Raça ${race} é inválida.`);
+    }
 
-    const createdCharacter = new this.characterModel(characterData);
+    if (spells && spells.length > 0) {
+      if (!characterClass.spellcasting) {
+        throw new ValidationException(`A classe ${className} não pode lançar magias.`);
+      }
+      for (const spellName of spells) {
+        const spell = await this.dndApiService.getSpell(spellName);
+        if (!spell) {
+          throw new ValidationException(`Magia ${spellName} é inválida.`);
+        }
+        if (spell.level > level) {
+          throw new ValidationException(`Magia ${spellName} não permitida para o nível ${level}.`);
+        }
+        const validSpells = characterClass.spellcasting.spells;
+        if (!validSpells || !validSpells.includes(spellName.toLowerCase())) {
+          throw new ValidationException(`A magia ${spellName} não é válida para a classe ${className}.`);
+        }
+      }
+    }
+
+    const createdCharacter = new this.characterModel(createCharacterDto);
     return createdCharacter.save();
   }
 

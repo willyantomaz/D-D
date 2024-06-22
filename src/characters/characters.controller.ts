@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, NotFoundException, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, NotFoundException, Put, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -10,6 +10,7 @@ export class CharactersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   async create(@Body() createCharacterDto: CreateCharacterDto) {
     return this.charactersService.create(createCharacterDto);
   }
