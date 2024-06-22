@@ -16,7 +16,7 @@ export class CharactersService {
   async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
     const { className } = createCharacterDto;
 
-    const classInfo = await this.dndApiService.getClassInfo(className).toPromise();
+    const classInfo = await this.dndApiService.getClassInfo(className);
 
     const characterData = {
       ...createCharacterDto,

@@ -29,5 +29,4 @@ export class UpdateCharacterDto {
   @IsOptional()
   items?: string[];
 
-  // Adicione outros campos conforme necessário
 }

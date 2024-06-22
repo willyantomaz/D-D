@@ -24,7 +24,6 @@ export class Character extends Document {
   @Prop({ type: [String], default: [] })
   items: string[];
 
-  // Adicione outros campos conforme necessário
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);
