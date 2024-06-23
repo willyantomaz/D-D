@@ -7,10 +7,16 @@ export class Character extends Document {
   name: string;
 
   @Prop({ required: true })
+  level: number;
+
+  @Prop({ required: true })
   className: string;
 
   @Prop({ required: true })
   alignment: string;
+
+  @Prop({ required: true })
+  race: string;
 
   @Prop({ type: Object, required: true })
   attributes: { [key: string]: number };
@@ -23,7 +29,6 @@ export class Character extends Document {
 
   @Prop({ type: [String], default: [] })
   items: string[];
-
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);

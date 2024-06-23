@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, NotFoundException, Put, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, NotFoundException, Put, Delete, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -45,8 +45,8 @@ export class CharactersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('random')
-  async createRandom(@Body() createCharacterDto: CreateCharacterDto) {
-    return this.charactersService.createRandom(createCharacterDto);
+  async createRandom(@Query('name') name: string) {
+    return this.charactersService.createRandom(name);
   }
   
 }

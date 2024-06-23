@@ -10,12 +10,13 @@ export class CreateCharacterDto {
   className: string;
 
   @IsString()
-  readonly race: string;
+  @IsNotEmpty()
+  race: string;
 
   @IsInt()
   @Min(1)
   @Max(20)
-  readonly level: number;
+  level: number;
 
   @IsString()
   @IsNotEmpty()

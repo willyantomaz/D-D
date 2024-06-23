@@ -13,6 +13,10 @@ export class UpdateCharacterDto {
   @IsOptional()
   alignment?: string;
 
+  @IsString()
+  @IsOptional()
+  race?: string;
+
   @IsArray()
   @IsOptional()
   attributes?: { [key: string]: number };
